@@ -6,6 +6,7 @@ import torch
 import numpy as np
 import h5py
 import random
+import numpy as np
 
 class CRNShapeNet(data.Dataset):
     """
@@ -41,3 +42,33 @@ class CRNShapeNet(data.Dataset):
     def __len__(self):
         return len(self.index_list)
 
+class KITTI_loader(data.Dataset):
+    """
+    Dataset of numbers in [a,b] inclusive
+    """
+
+    def __init__(self, args):
+        super(KITTI_loader, self).__init__()
+        self.args = args
+        self.dataset_path = self.args.dataset_path
+        npyfile = np.load(self.dataset_path)
+        dataxyz = self.from_polar_np(npyfile)
+        self.dataset = dataxyz.reshape(-1,2048,3)
+        # self.complete = np.concatenate([self.from_polar_np(np.load(self.dataset_path, mmap_mode='r')[:, :, :, ::8]) for i in range(2)], axis=0).transpose(0, 2, 3, 1).reshape(-1, 2048, 3)
+        print(self.dataset.shape)
+
+    def __len__(self):
+        # batchsize
+        return self.dataset.shape[0]
+
+    def __getitem__(self, index):
+        
+        return self.dataset[index]
+
+    def from_polar_np(self, velo):
+        angles = np.linspace(0, np.pi * 2, velo.shape[-1])
+        dist, z = velo[:, 0], velo[:, 1]
+        x = np.cos(angles) * dist
+        y = np.sin(angles) * dist
+        out = np.stack([x,y,z], axis=1)
+        return out.astype('float32')
