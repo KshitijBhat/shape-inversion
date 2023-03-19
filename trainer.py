@@ -8,7 +8,7 @@ import torch.optim
 import torchvision.utils as vutils
 from torch.utils.data import DataLoader
 
-from data.CRN_dataset import CRNShapeNet
+from data.CRN_dataset import CRNShapeNet, KITTI_loader
 from data.ply_dataset import PlyDataset
 
 
@@ -52,7 +52,8 @@ class Trainer(object):
         if self.args.dataset in ['MatterPort','ScanNet','KITTI','PartNet']:
             dataset = PlyDataset(self.args)
         else: 
-            dataset = CRNShapeNet(self.args)
+            # dataset = CRNShapeNet(self.args)
+            dataset = KITTI_loader(self.args)
         
         sampler = DistributedSampler(dataset) if self.args.dist else None
 
@@ -102,7 +103,11 @@ class Trainer(object):
                 # without gt
                 partial, index = data
                 gt = None
-            else:
+            if self.args.dataset in ['KITTI_npy']:
+                # without gt
+                partial, index = data
+                gt = None
+            if self.args.dataset in ['CRN']:
                 # with gt
                 gt, partial, index = data
                 gt = gt.squeeze(0).cuda()

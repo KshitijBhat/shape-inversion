@@ -63,7 +63,7 @@ class KITTI_loader(data.Dataset):
 
     def __getitem__(self, index):
         
-        return self.dataset[index]
+        return self.dataset[index], 1
 
     def from_polar_np(self, velo):
         angles = np.linspace(0, np.pi * 2, velo.shape[-1])
