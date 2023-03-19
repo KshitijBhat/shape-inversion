@@ -51,8 +51,9 @@ class Trainer(object):
         
         if self.args.dataset in ['MatterPort','ScanNet','KITTI','PartNet']:
             dataset = PlyDataset(self.args)
-        else: 
-            # dataset = CRNShapeNet(self.args)
+        if self.args.dataset in ['CRN']:
+            dataset = CRNShapeNet(self.args)
+        if self.args.dataset in ['KITTI_npy']:
             dataset = KITTI_loader(self.args)
         
         sampler = DistributedSampler(dataset) if self.args.dist else None
