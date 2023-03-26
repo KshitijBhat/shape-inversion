@@ -50,10 +50,14 @@ class KITTI_loader(data.Dataset):
     def __init__(self, args):
         super(KITTI_loader, self).__init__()
         self.args = args
-        self.dataset_path = self.args.dataset_path
-        npyfile = np.load(self.dataset_path)
-        dataxyz = self.from_polar_np(npyfile)
-        self.dataset = dataxyz.reshape(-1,32768,3)
+        self.dataset_path = self.args.dataset_path # the folder
+        datasets = []
+        for data_npy in os.listdir(self.dataset_path):
+            npyfile = np.load(self.dataset_path + "/" + data_npy)
+            dataxyz = self.from_polar_np(npyfile)
+            datai = dataxyz.reshape(-1,32768,3)
+            datasets.append(datai)
+        self.dataset = np.concatenate(datasets, axis=0)
         # self.complete = np.concatenate([self.from_polar_np(np.load(self.dataset_path, mmap_mode='r')[:, :, :, ::8]) for i in range(2)], axis=0).transpose(0, 2, 3, 1).reshape(-1, 2048, 3)
         print(self.dataset.shape)
 
