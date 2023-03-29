@@ -90,17 +90,21 @@ class TreeGAN():
                 start_time = time.time()
                 point, _ = data 
                 point = point.to(self.args.device)
+                print(f"Point shape: {point.shape}")
 
                 # -------------------- Discriminator -------------------- #
                 tic = time.time()
                 for d_iter in range(self.args.D_iter):
                     self.D.zero_grad()
                     z = torch.randn(point.shape[0], 1, 96).to(self.args.device)
+                    print(f"Z shape: {z.shape}") 
+
                     
                     tree = [z]
                     
                     with torch.no_grad():
-                        fake_point = self.G(tree)         
+                        fake_point = self.G(tree)  
+                        print(f"Fake point shape: {fake_point.shape}") 
                     
                     D_real, _ = self.D(point)
                     D_fake, _ = self.D(fake_point)
