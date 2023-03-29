@@ -30,6 +30,7 @@ class Arguments:
         self._parser.add_argument('--split', type=str, default='test', help='NOTE: train if pretrain and generate_fpd_stats; test otherwise')
         
         ### TreeGAN architecture related
+        # change degree to 64x(num_lidar_pts)/2048
         self._parser.add_argument('--DEGREE', type=int, default=[1,  2,   2,   2,   2,   2,   64], nargs='+', help='Upsample degrees for generator.')
         self._parser.add_argument('--G_FEAT', type=int, default=[96, 256, 256, 256, 128, 128, 128, 3], nargs='+', help='Features for generator.')
         self._parser.add_argument('--D_FEAT', type=int, default=[3, 64,  128, 256, 256, 512], nargs='+', help='Features for discriminator.')
@@ -43,7 +44,8 @@ class Arguments:
     
     def add_pretrain_args(self):
         ### general training related
-        self._parser.add_argument('--batch_size', type=int, default=40, help='128 for cabinet, lamp, sofa, and boat due to smaller amounts; you can set up to 512 for plane, car, chair, and table')
+        ## batch size low for Tree GAN pretrain
+        self._parser.add_argument('--batch_size', type=int, default=128, help='128 for cabinet, lamp, sofa, and boat due to smaller amounts; you can set up to 512 for plane, car, chair, and table')
         self._parser.add_argument('--epochs', type=int, default=2000, help='Integer value for epochs.')
         self._parser.add_argument('--lr', type=float, default=1e-4, help='Float value for learning rate.')
         self._parser.add_argument('--lambdaGP', type=int, default=10, help='Lambda for GP term.')

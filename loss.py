@@ -148,7 +148,7 @@ class kNNLoss(nn.Module):
         seeds = farthest_point_sample(pcs,n_seeds) # which gives index
         seeds_value = torch.stack([pc[seed] for pc, seed in zip(pcs,seeds)]) 
         pcs_new = pcs.unsqueeze(2).repeat(1,1,n_seeds,1)
-        seeds_new = seeds_value.unsqueeze(1).repeat(1,2048,1,1)
+        seeds_new = seeds_value.unsqueeze(1).repeat(1,2048,1,1)   #################### need change here
         dist = pcs_new.add(-seeds_new)
         dist_value = torch.norm(dist,dim=3)
         dist_new = dist_value.transpose(1,2)
