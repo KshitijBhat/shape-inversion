@@ -43,7 +43,7 @@ class Arguments:
     
     def add_pretrain_args(self):
         ### general training related
-        self._parser.add_argument('--batch_size', type=int, default=64, help='128 for cabinet, lamp, sofa, and boat due to smaller amounts; you can set up to 512 for plane, car, chair, and table')
+        self._parser.add_argument('--batch_size', type=int, default=40, help='128 for cabinet, lamp, sofa, and boat due to smaller amounts; you can set up to 512 for plane, car, chair, and table')
         self._parser.add_argument('--epochs', type=int, default=2000, help='Integer value for epochs.')
         self._parser.add_argument('--lr', type=float, default=1e-4, help='Float value for learning rate.')
         self._parser.add_argument('--lambdaGP', type=int, default=10, help='Lambda for GP term.')
