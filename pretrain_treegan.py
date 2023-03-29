@@ -5,7 +5,7 @@ import torch.optim as optim
 from data.CRN_dataset import KITTI_loader
 from model.treegan_network import Generator, Discriminator
 from model.gradient_penalty import GradientPenalty
-from evaluation.FPD import calculate_fpd
+# from evaluation.FPD import calculate_fpd
 
 from arguments import Arguments
 
