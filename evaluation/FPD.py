@@ -5,7 +5,7 @@ from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 import numpy as np
 import torch
 from scipy.linalg import sqrtm
-from scipy.misc import imread
+from matplotlib.pyplot import imread
 from torch.nn.functional import adaptive_avg_pool2d
 from evaluation.pointnet import PointNetCls
 
@@ -22,7 +22,7 @@ except ImportError:
 
 """
 
-def get_activations(pointclouds, model, batch_size=100, dims=1808,
+def get_activations(pointclouds, model, batch_size=50, dims=1808,
                     device=None, verbose=False):
     """Calculates the activations of the pool_3 layer for all images.
     Params:

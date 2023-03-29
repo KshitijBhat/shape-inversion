@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
-from data.CRN_dataset import CRNShapeNet
+from data.CRN_dataset import KITTI_loader
 from model.treegan_network import Generator, Discriminator
 from model.gradient_penalty import GradientPenalty
 from evaluation.FPD import calculate_fpd
@@ -22,7 +22,7 @@ class TreeGAN():
         self.args = args
         
         ### dataset
-        self.data = CRNShapeNet(args)
+        self.data = KITTI_loader(args)
         self.dataLoader = torch.utils.data.DataLoader(self.data, batch_size=args.batch_size, shuffle=True, pin_memory=True, num_workers=16)
         print("Training Dataset : {} prepared.".format(len(self.data)))
         
@@ -62,19 +62,20 @@ class TreeGAN():
 
         metric = {'FPD': []}
         if load_ckpt is not None:
-            checkpoint = torch.load(load_ckpt, map_location=self.args.device)
-            self.D.load_state_dict(checkpoint['D_state_dict'])
-            self.G.load_state_dict(checkpoint['G_state_dict'])
+            pass
+            # checkpoint = torch.load(load_ckpt, map_location=self.args.device)
+            # self.D.load_state_dict(checkpoint['D_state_dict'])
+            # self.G.load_state_dict(checkpoint['G_state_dict'])
 
-            epoch_log = checkpoint['epoch']
+            # epoch_log = checkpoint['epoch']
 
-            loss_log['G_loss'] = checkpoint['G_loss']
-            loss_log['D_loss'] = checkpoint['D_loss']
-            loss_legend = list(loss_log.keys())
+            # loss_log['G_loss'] = checkpoint['G_loss']
+            # loss_log['D_loss'] = checkpoint['D_loss']
+            # loss_legend = list(loss_log.keys())
 
-            metric['FPD'] = checkpoint['FPD']
+            # metric['FPD'] = checkpoint['FPD']
             
-            print("Checkpoint loaded.")
+            # print("Checkpoint loaded.")
         # parallel after loading
         self.G = nn.DataParallel(self.G)
         self.D = nn.DataParallel(self.D)
@@ -87,7 +88,7 @@ class TreeGAN():
             for _iter, data in enumerate(self.dataLoader):
                 # Start Time
                 start_time = time.time()
-                point, _, _ = data 
+                point, _ = data 
                 point = point.to(self.args.device)
 
                 # -------------------- Discriminator -------------------- #
