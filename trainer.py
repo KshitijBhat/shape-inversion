@@ -69,10 +69,10 @@ class Trainer(object):
         else:
             self.dataloader = DataLoader(
                 dataset,
-                batch_size=1,
+                batch_size=12,
                 shuffle=False,
                 sampler=sampler,
-                num_workers=1,
+                num_workers=12,
                 pin_memory=False)
         
     def run(self):
