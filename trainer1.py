@@ -8,7 +8,7 @@ import torch.optim
 import torchvision.utils as vutils
 from torch.utils.data import DataLoader
 
-from data.CRN_dataset import CRNShapeNet, KITTI_loader
+from data1.CRN_dataset import CRNShapeNet, KITTI_loader
 from data.ply_dataset import PlyDataset
 
 
@@ -18,9 +18,9 @@ from utils.pc_transform import voxelize
 from utils.plot import draw_any_set
 from utils.common_utils import *
 from utils.inversion_dist import *
-from loss import *
+from loss1 import *
 
-from shape_inversion import ShapeInversion
+from shape_inversion1 import ShapeInversion
 
 from model.treegan_network import Generator, Discriminator
 from external.ChamferDistancePytorch.chamfer_python import distChamfer, distChamfer_raw
@@ -72,7 +72,7 @@ class Trainer(object):
                 batch_size=1,
                 shuffle=False,
                 sampler=sampler,
-                num_workers=2,
+                num_workers=1,
                 pin_memory=False)
         
     def run(self):

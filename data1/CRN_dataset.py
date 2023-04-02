@@ -56,7 +56,7 @@ class KITTI_loader(data.Dataset):
             npyfile = np.load(self.dataset_path + "/" + data_npy)
             dataxyz = self.from_polar_np(npyfile)
             print(f"dataxyz shape {dataxyz.shape}")
-            datai = dataxyz.transpose(0,2,3,1).reshape(-1,32768,3)[:, ::4, :]
+            datai = dataxyz.transpose(0,2,3,1).reshape(-1,32768,3)[:, ::8, :]
             datasets.append(datai)
         self.dataset = np.concatenate(datasets, axis=0)
         # self.complete = np.concatenate([self.from_polar_np(np.load(self.dataset_path, mmap_mode='r')[:, :, :, ::8]) for i in range(2)], axis=0).transpose(0, 2, 3, 1).reshape(-1, 2048, 3)

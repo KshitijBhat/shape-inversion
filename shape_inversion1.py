@@ -460,7 +460,7 @@ class ShapeInversion(object):
             idx = torch.unique(indices).type(torch.long)
 
         if self.args.masking_option == 'element_product':   
-            mask_tensor = torch.zeros(8192,1)
+            mask_tensor = torch.zeros(4096,1)
             mask_tensor[idx] = 1
             mask_tensor = mask_tensor.cuda().unsqueeze(0)
             x_map = torch.mul(x, mask_tensor) 
